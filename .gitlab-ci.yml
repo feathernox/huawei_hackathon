@@ -1,0 +1,19 @@
+stages:
+  - security  # checking that .gitlab-ci.yml is still unchanges
+  - check  # evaluating the result.zip with restored images
+
+security:
+  stage: security
+  tags: 
+    - huawei-security
+  script:
+    - md5sum /huawei-hackathon/signup/code/.gitlab-ci.yml
+    - md5sum .gitlab-ci.yml
+
+check:
+  stage: check
+  tags: 
+    - huawei-check
+  script:
+    - /huawei-hackathon/checker/evaluator.py ./result.zip /huawei-hackathon/test_data
+    - /huawei-hackathon/checker/lb_updater.py
